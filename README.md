@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Web CRUD User
 
-## Getting Started
+โปรเจกต์นี้เป็นเว็บแอปพลิเคชัน CRUD (Create, Read, Update, Delete) สำหรับจัดการข้อมูลผู้ใช้ พัฒนาด้วย Next.js
 
-First, run the development server:
+## คุณสมบัติ
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- เพิ่ม, แก้ไข, ลบ, และแสดงข้อมูลผู้ใช้
+- มีหน้าจอ Login และใช้ JWT สำหรับการยืนยันตัวตน
+- อินเทอร์เฟซใช้งานง่าย
+- พัฒนาโดยใช้ Next.js
+- เชื่อมต่อกับ backend ที่พัฒนาด้วย .NET 9 ([ดูรายละเอียด backend ที่นี่](https://github.com/Sitthiphong-krobkrong/dotnet9-jwt-concept))
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## วิธีเริ่มต้นใช้งาน
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. ติดตั้ง dependencies
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    ```bash
+    npm install
+    ```
 
-## Learn More
+2. เริ่มเซิร์ฟเวอร์
 
-To learn more about Next.js, take a look at the following resources:
+    ```bash
+    npm run dev
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. เปิดเว็บเบราว์เซอร์ที่ `http://localhost:3000`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+> **หมายเหตุ:** ต้องตั้งค่า backend (.NET 9) ให้พร้อมใช้งานก่อน สามารถดูรายละเอียดและวิธีการติดตั้ง backend ได้ที่ [dotnet9-jwt-concept](https://github.com/Sitthiphong-krobkrong/dotnet9-jwt-concept)
 
-## Deploy on Vercel
+## โครงสร้างโปรเจกต์
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `/pages` — ไฟล์เพจหลัก
+- `/components` — คอมโพเนนต์ที่ใช้ซ้ำ
+- `/public` — ไฟล์สาธารณะ
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+Distributed under the MIT License.
