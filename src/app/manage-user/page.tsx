@@ -9,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
+import { AddCircle, AddIcCallTwoTone, Cancel, RemoveCircle } from '@mui/icons-material'
 
 type User = {
     user_id: number
@@ -107,6 +108,11 @@ export default function ManageUserPage() {
                     user_fname: form.user_fname,
                     user_lname: form.user_lname
                 })
+                Swal.fire({
+                    icon: 'success',
+                    title: 'อัปเดตผู้ใช้สำเร็จ!',
+                    confirmButtonText: 'ตกลง',
+                });
                 setSuccess('อัปเดตข้อมูลสำเร็จ')
             } else {
                 const confirmResult = await Swal.fire({
@@ -124,6 +130,11 @@ export default function ManageUserPage() {
                     user_fname: form.user_fname,
                     user_lname: form.user_lname
                 })
+                Swal.fire({
+                    icon: 'success',
+                    title: 'เพิ่มผู้ใช้สำเร็จ!',
+                    confirmButtonText: 'ตกลง',
+                });
                 setSuccess('เพิ่มผู้ใช้สำเร็จ')
             }
             setForm({ user_fname: '', user_lname: '', user_id: undefined })
@@ -154,8 +165,6 @@ export default function ManageUserPage() {
                     Swal.fire({
                         icon: 'success',
                         title: 'ลบผู้ใช้สำเร็จ!',
-                        timer: 1200,
-                        showConfirmButton: false
                     })
                     fetchUsers()
                 } catch (e: any) {
@@ -213,15 +222,24 @@ export default function ManageUserPage() {
                         />
                     </Box>
                     <Box sx={{ gridColumn: { xs: '1', sm: '1 / span 2' }, display: 'flex', gap: 2, mt: 1 }}>
-                        <Button type="submit" variant="contained" color="primary">
-                            {form.user_id ? 'Update' : 'Add'}
-                        </Button>
+                        {
+                            form.user_id ? (
+                                <Button type="submit" variant="contained" color="primary">
+                                    <EditIcon /> อัพเดทข้อมูล
+                                </Button>
+                            ) : (
+                                <Button type="submit" variant="contained" color="success">
+                                    <AddCircle /> เพิ่มข้อมูล
+                                </Button>
+                            )
+                        }
+                        
                         {form.user_id && (
                             <Button
                                 variant="outlined"
                                 color="inherit"
                                 onClick={() => setForm({ user_fname: '', user_lname: '', user_id: undefined })}
-                            >Cancel</Button>
+                            >ยกเลิก</Button>
                         )}
                     </Box>
                 </form>
@@ -232,7 +250,7 @@ export default function ManageUserPage() {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell width={60}>ID</TableCell>
+                            {/* <TableCell width={60}>ID</TableCell> */}
                             <TableCell>ชื่อผู้ใช้</TableCell>
                             <TableCell>รหัสผ่าน</TableCell>
                             <TableCell>ชื่อจริง</TableCell>
@@ -243,7 +261,7 @@ export default function ManageUserPage() {
                     <TableBody>
                         {users.map(u => (
                             <TableRow key={u.user_id}>
-                                <TableCell>{u.user_id}</TableCell>
+                                {/* <TableCell>#</TableCell> */}
                                 <TableCell>{u.user_name}</TableCell>
                                 <TableCell>
                                     {u.user_pass ? '******' : ''}
