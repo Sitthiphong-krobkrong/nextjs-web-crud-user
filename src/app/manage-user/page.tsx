@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import {
     Container, Typography, TextField, Button,
     Table, TableBody, TableCell, TableHead, TableRow, Paper, IconButton, Stack, Box, Alert
@@ -86,14 +86,36 @@ export default function ManageUserPage() {
         }
         try {
             if (form.user_id) {
+                const confirmResult = await Swal.fire({
+                    title: 'ยืนยันการอัปเดต?',
+                    text: 'คุณต้องการอัปเดตข้อมูลผู้ใช้นี้หรือไม่',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'ใช่, อัปเดต!',
+                    cancelButtonText: 'ยกเลิก'
+                })
+                if (!confirmResult.isConfirmed) return
                 await axiosAuth().patch('/user/update', {
                     user_id: form.user_id,
+                    user_name: form.user_name,
+                    user_pass: form.user_pass,
                     user_fname: form.user_fname,
                     user_lname: form.user_lname
                 })
                 setSuccess('อัปเดตข้อมูลสำเร็จ')
             } else {
-                await axiosAuth().post('/user/add', {
+                const confirmResult = await Swal.fire({
+                    title: 'ยืนยันการเพิ่ม?',
+                    text: 'คุณต้องการเพิ่มข้อมูลผู้ใช้นี้หรือไม่',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'ใช่, เพิ่ม!',
+                    cancelButtonText: 'ยกเลิก'
+                })
+                if (!confirmResult.isConfirmed) return
+                await axiosAuth().post('/user/create', {
+                    user_name: form.user_name,
+                    user_pass: form.user_pass,
                     user_fname: form.user_fname,
                     user_lname: form.user_lname
                 })
@@ -144,10 +166,30 @@ export default function ManageUserPage() {
 
     return (
         <Container maxWidth="md" sx={{ py: 5 }}>
-            <Typography variant="h4" gutterBottom>จัดการข้อมูลผู้ใช้งาน</Typography>
+            <Typography variant="h4" gutterBottom>จัดการผู้ใช้งาน</Typography>
             <Paper sx={{ p: 3, mb: 3 }}>
                 <form onSubmit={handleSubmit}>
-                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2, mb: 3 }}>
+                        <TextField
+                            name="user_name"
+                            label="ชื่อผู้ใช้"
+                            value={form.user_name || ''}
+                            onChange={handleChange}
+                            required
+                            fullWidth
+                        />
+                        <TextField
+                            name="user_pass"
+                            label="รหัสผ่านผู้ใช้"
+                            value={form.user_pass || ''}
+                            onChange={handleChange}
+                            required
+                            fullWidth
+                            type="password"
+                        />
+                    </Box>
+
+                    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2, mb: 3 }}>
                         <TextField
                             name="user_fname"
                             label="ชื่อ"
@@ -164,6 +206,8 @@ export default function ManageUserPage() {
                             required
                             fullWidth
                         />
+                    </Box>
+                    <Box sx={{ gridColumn: { xs: '1', sm: '1 / span 2' }, display: 'flex', gap: 2, mt: 1 }}>
                         <Button type="submit" variant="contained" color="primary">
                             {form.user_id ? 'Update' : 'Add'}
                         </Button>
@@ -174,7 +218,7 @@ export default function ManageUserPage() {
                                 onClick={() => setForm({ user_fname: '', user_lname: '', user_id: undefined })}
                             >Cancel</Button>
                         )}
-                    </Stack>
+                    </Box>
                 </form>
                 {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
                 {success && <Alert severity="success" sx={{ mt: 2 }}>{success}</Alert>}
@@ -184,9 +228,9 @@ export default function ManageUserPage() {
                     <TableHead>
                         <TableRow>
                             <TableCell width={60}>ID</TableCell>
-                            <TableCell>UserName</TableCell>
-                            <TableCell>Password</TableCell>
-                            <TableCell>ชื่อ</TableCell>
+                            <TableCell>ชื่อผู้ใช้</TableCell>
+                            <TableCell>รหัสผ่าน</TableCell>
+                            <TableCell>ชื่อจริง</TableCell>
                             <TableCell>นามสกุล</TableCell>
                             <TableCell align="center" width={120}>Action</TableCell>
                         </TableRow>
@@ -196,7 +240,9 @@ export default function ManageUserPage() {
                             <TableRow key={u.user_id}>
                                 <TableCell>{u.user_id}</TableCell>
                                 <TableCell>{u.user_name}</TableCell>
-                                <TableCell>{u.user_pass}</TableCell>
+                                <TableCell>
+                                    {u.user_pass ? '******' : ''}
+                                </TableCell>
                                 <TableCell>{u.user_fname}</TableCell>
                                 <TableCell>{u.user_lname}</TableCell>
                                 <TableCell align="center">

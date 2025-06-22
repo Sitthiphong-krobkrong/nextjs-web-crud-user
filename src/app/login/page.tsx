@@ -30,11 +30,11 @@ export default function LoginPage() {
             const res = await axios.post(`${apiBase}/auth/login`, form)
             const token = res.data.data.token
             localStorage.setItem('jwt', token)
-            setSuccess('เข้าสู่ระบบสำเร็จ!')
-            // ---- redirect after login ----
             setTimeout(() => {
-                router.push('/user-manage') // หรือ '/usercrud' ตามชื่อ path ที่คุณใช้
-            }, 500)
+                setSuccess('เข้าสู่ระบบสำเร็จ!')
+                router.push('/manage-user') // หรือ '/usercrud' ตามชื่อ path ที่คุณใช้
+                window.dispatchEvent(new Event('storage')) // เพิ่มบรรทัดนี้!
+            }, 1000)
         } catch (err: any) {
             setError(err.response?.data?.message || 'เข้าสู่ระบบไม่สำเร็จ')
         }
