@@ -32,7 +32,7 @@ export default function LoginPage() {
             localStorage.setItem('jwt', token)
             setTimeout(() => {
                 setSuccess('เข้าสู่ระบบสำเร็จ!')
-                router.push('/manage-user') // หรือ '/usercrud' ตามชื่อ path ที่คุณใช้
+                router.push('/home') // หรือ '/usercrud' ตามชื่อ path ที่คุณใช้
                 window.dispatchEvent(new Event('storage')) // เพิ่มบรรทัดนี้!
             }, 1000)
         } catch (err: any) {

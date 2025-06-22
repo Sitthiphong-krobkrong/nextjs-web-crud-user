@@ -48,9 +48,14 @@ export default function ManageUserPage() {
         // เช็ค token ที่ localStorage (เฉพาะฝั่ง client)
         const token = localStorage.getItem('jwt')
         if (!token) {
-            setTimeout(() => {
+            Swal.fire({
+                title: 'Unauthorized',
+                text: 'กรุณาเข้าสู่ระบบก่อนใช้งาน',
+                timer: 2000,
+                icon: 'warning',
+            }).finally(() => {
                 router.replace('/login') // redirect ไปหน้า login
-            }, 2000) // หน่วงเวลา 2 วินาทีเพื่อให้ผู้ใช้เห็นข้อความ
+            })
         }
     }, [router])
 
