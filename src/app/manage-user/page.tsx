@@ -181,106 +181,130 @@ export default function ManageUserPage() {
     return (
         <Container maxWidth="md" sx={{ py: 5 }}>
             <Typography variant="h4" gutterBottom>จัดการผู้ใช้งาน</Typography>
-            <Paper sx={{ p: 3, mb: 3 }}>
-                <form onSubmit={handleSubmit}>
-                    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2, mb: 3 }}>
-                        <TextField
-                            name="user_name"
-                            label="ชื่อผู้ใช้"
-                            value={form.user_name || ''}
-                            onChange={handleChange}
-                            required
-                            fullWidth
-                        />
-                        <TextField
-                            name="user_pass"
-                            label="รหัสผ่านผู้ใช้"
-                            value={form.user_pass || ''}
-                            onChange={handleChange}
-                            required
-                            fullWidth
-                            type="password"
-                        />
-                    </Box>
+            <Paper sx={{ p: { xs: 1.5, sm: 3 }, mb: 3 }}>
+            <form onSubmit={handleSubmit}>
+                <Box
+                sx={{
+                    display: 'grid',
+                    gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+                    gap: 2,
+                    mb: 3
+                }}
+                >
+                <TextField
+                    name="user_name"
+                    label="ชื่อผู้ใช้"
+                    value={form.user_name || ''}
+                    onChange={handleChange}
+                    required
+                    fullWidth
+                    size="small"
+                />
+                <TextField
+                    name="user_pass"
+                    label="รหัสผ่านผู้ใช้"
+                    value={form.user_pass || ''}
+                    onChange={handleChange}
+                    required
+                    fullWidth
+                    type="password"
+                    size="small"
+                />
+                </Box>
 
-                    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2, mb: 3 }}>
-                        <TextField
-                            name="user_fname"
-                            label="ชื่อ"
-                            value={form.user_fname || ''}
-                            onChange={handleChange}
-                            required
-                            fullWidth
-                        />
-                        <TextField
-                            name="user_lname"
-                            label="นามสกุล"
-                            value={form.user_lname || ''}
-                            onChange={handleChange}
-                            required
-                            fullWidth
-                        />
-                    </Box>
-                    <Box sx={{ gridColumn: { xs: '1', sm: '1 / span 2' }, display: 'flex', gap: 2, mt: 1 }}>
-                        {
-                            form.user_id ? (
-                                <Button type="submit" variant="contained" color="primary">
-                                    <EditIcon /> อัพเดทข้อมูล
-                                </Button>
-                            ) : (
-                                <Button type="submit" variant="contained" color="success">
-                                    <AddCircle /> เพิ่มข้อมูล
-                                </Button>
-                            )
-                        }
-                        
-                        {form.user_id && (
-                            <Button
-                                variant="outlined"
-                                color="inherit"
-                                onClick={() => setForm({ user_fname: '', user_lname: '', user_id: undefined })}
-                            >ยกเลิก</Button>
-                        )}
-                    </Box>
-                </form>
-                {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
-                {success && <Alert severity="success" sx={{ mt: 2 }}>{success}</Alert>}
+                <Box
+                sx={{
+                    display: 'grid',
+                    gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+                    gap: 2,
+                    mb: 3
+                }}
+                >
+                <TextField
+                    name="user_fname"
+                    label="ชื่อ"
+                    value={form.user_fname || ''}
+                    onChange={handleChange}
+                    required
+                    fullWidth
+                    size="small"
+                />
+                <TextField
+                    name="user_lname"
+                    label="นามสกุล"
+                    value={form.user_lname || ''}
+                    onChange={handleChange}
+                    required
+                    fullWidth
+                    size="small"
+                />
+                </Box>
+                <Box
+                sx={{
+                    gridColumn: { xs: '1', sm: '1 / span 2' },
+                    display: 'flex',
+                    flexDirection: { xs: 'column', sm: 'row' },
+                    gap: 2,
+                    mt: 1
+                }}
+                >
+                {
+                    form.user_id ? (
+                    <Button type="submit" variant="contained" color="primary" fullWidth={true} sx={{ minWidth: 120 }}>
+                        <EditIcon sx={{ mr: 1 }} /> อัพเดทข้อมูล
+                    </Button>
+                    ) : (
+                    <Button type="submit" variant="contained" color="success" fullWidth={true} sx={{ minWidth: 120 }}>
+                        <AddCircle sx={{ mr: 1 }} /> เพิ่มข้อมูล
+                    </Button>
+                    )
+                }
+
+                {form.user_id && (
+                    <Button
+                    variant="outlined"
+                    color="inherit"
+                    onClick={() => setForm({ user_fname: '', user_lname: '', user_id: undefined })}
+                    fullWidth={true}
+                    sx={{ minWidth: 120 }}
+                    >ยกเลิก</Button>
+                )}
+                </Box>
+            </form>
+            {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+            {success && <Alert severity="success" sx={{ mt: 2 }}>{success}</Alert>}
             </Paper>
-            <Paper>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            {/* <TableCell width={60}>ID</TableCell> */}
-                            <TableCell>ชื่อผู้ใช้</TableCell>
-                            <TableCell>รหัสผ่าน</TableCell>
-                            <TableCell>ชื่อจริง</TableCell>
-                            <TableCell>นามสกุล</TableCell>
-                            <TableCell align="center" width={120}>Action</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {users.map(u => (
-                            <TableRow key={u.user_id}>
-                                {/* <TableCell>#</TableCell> */}
-                                <TableCell>{u.user_name}</TableCell>
-                                <TableCell>
-                                    {u.user_pass ? '******' : ''}
-                                </TableCell>
-                                <TableCell>{u.user_fname}</TableCell>
-                                <TableCell>{u.user_lname}</TableCell>
-                                <TableCell align="center">
-                                    <IconButton color="primary" onClick={() => handleEdit(u)}><EditIcon /></IconButton>
-                                    <IconButton color="error" onClick={() => handleDelete(u.user_id)}><DeleteIcon /></IconButton>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                        {users.length === 0 && (
-                            <TableRow>
-                                <TableCell colSpan={4} align="center">{loading ? "Loading..." : "No data"}</TableCell>
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
+            <Paper sx={{ width: '100%', overflowX: 'auto' }}>
+            <Table size="small" sx={{ minWidth: 600 }}>
+                <TableHead>
+                <TableRow>
+                    <TableCell>ชื่อผู้ใช้</TableCell>
+                    <TableCell>รหัสผ่าน</TableCell>
+                    <TableCell>ชื่อจริง</TableCell>
+                    <TableCell>นามสกุล</TableCell>
+                    <TableCell align="center" width={120}>Action</TableCell>
+                </TableRow>
+                </TableHead>
+                <TableBody>
+                {users.map(u => (
+                    <TableRow key={u.user_id}>
+                    <TableCell sx={{ wordBreak: 'break-word' }}>{u.user_name}</TableCell>
+                    <TableCell>{u.user_pass ? '******' : ''}</TableCell>
+                    <TableCell sx={{ wordBreak: 'break-word' }}>{u.user_fname}</TableCell>
+                    <TableCell sx={{ wordBreak: 'break-word' }}>{u.user_lname}</TableCell>
+                    <TableCell align="center">
+                        <IconButton color="primary" onClick={() => handleEdit(u)} size="small"><EditIcon /></IconButton>
+                        <IconButton color="error" onClick={() => handleDelete(u.user_id)} size="small"><DeleteIcon /></IconButton>
+                    </TableCell>
+                    </TableRow>
+                ))}
+                {users.length === 0 && (
+                    <TableRow>
+                    <TableCell colSpan={5} align="center">{loading ? "Loading..." : "No data"}</TableCell>
+                    </TableRow>
+                )}
+                </TableBody>
+            </Table>
             </Paper>
         </Container>
     )
