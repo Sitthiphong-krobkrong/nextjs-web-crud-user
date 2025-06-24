@@ -5,8 +5,9 @@ import {
     Container, Typography, TextField, Button, Paper, Box, Alert
 } from '@mui/material'
 import axios from 'axios'
+import apiConfig from '../config/env.json'
 
-const apiBase = 'http://localhost:58875'
+const apiBase = apiConfig.apiBase
 
 export default function LoginPage() {
     const router = useRouter()

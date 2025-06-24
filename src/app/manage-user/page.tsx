@@ -1,15 +1,17 @@
 'use client'
-import { use, useEffect, useState } from 'react'
+import {  useEffect, useState } from 'react'
 import {
     Container, Typography, TextField, Button,
-    Table, TableBody, TableCell, TableHead, TableRow, Paper, IconButton, Stack, Box, Alert
+    Table, TableBody, TableCell, TableHead, TableRow, Paper, IconButton, Box, Alert
 } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
-import { AddCircle, AddIcCallTwoTone, Cancel, RemoveCircle } from '@mui/icons-material'
+import { AddCircle } from '@mui/icons-material'
+import apiConfig from '../config/env.json'
+const apiBase = apiConfig.apiBase;
 
 type User = {
     user_id: number
@@ -18,8 +20,6 @@ type User = {
     user_name?: string
     user_pass?: string
 }
-
-const apiBase = 'http://localhost:58875' // เปลี่ยนเป็น endpoint จริง
 
 function getToken() {
     if (typeof window !== 'undefined') {
